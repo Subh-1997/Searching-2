@@ -45,3 +45,67 @@ private static boolean canWePlace(int[] stalls, int dist, int cows) {
 }
 }
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+4.Allocate Books
+
+package leetcode;
+
+import java.util.*;
+
+public class AllocateBooks {
+public static void main(String[] args) {
+	 ArrayList<Integer> arr = new ArrayList<>(Arrays.asList(25, 46, 28, 49, 24));
+     int n = 5;
+     int m = 4;
+     int ans = findPages(arr, n, m);
+     System.out.println(ans);
+}
+
+private static int findPages(ArrayList<Integer> arr, int n, int m) {
+	if(m>n) {
+		return -1;
+	}
+	int low = Collections.max(arr);
+	int high = arr.stream().mapToInt(Integer::intValue).sum();
+	
+//	for(int pages=low; pages<=high; pages++) {
+//		if(countStudent(arr,pages)==m) {
+//			return pages;
+//		}
+//	}
+	 
+     while (low <= high) {
+         int mid = (low + high) / 2;
+         int students = countStudent(arr, mid);
+         if (students > m) {
+             low = mid + 1;
+         } else {
+             high = mid - 1;
+         }
+     }
+     return low;
+	
+}
+
+private static int countStudent(ArrayList<Integer> arr, int pages) {
+
+	int n = arr.size();
+    int student = 1;
+    int pagesStudent = 0;
+    
+    for(int i = 0 ;i<n; i++) {
+    	if(arr.get(i)+pagesStudent<=pages) {
+    		
+    		pagesStudent=arr.get(i)+pagesStudent;
+    		
+    	}else {
+    		
+    		student++;
+    		pagesStudent = arr.get(i);
+    		
+    	}
+    }
+	return student;
+}
+}
